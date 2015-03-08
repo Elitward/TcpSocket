@@ -1,12 +1,8 @@
 package SimpleTCP;
 
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.io.OutputStream;
-import java.io.OutputStreamWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
 
@@ -33,12 +29,6 @@ public class Main {
 		fwdIn = sockOt.getInputStream();
 		fwdOt = sockOt.getOutputStream();
 		
-		BufferedReader getInRd = new BufferedReader(new InputStreamReader (getIn));
-		BufferedWriter getOtWt = new BufferedWriter(new OutputStreamWriter(getOt));
-		
-		BufferedReader fwdInRd = new BufferedReader(new InputStreamReader (fwdIn));
-		BufferedWriter fwdOtWt = new BufferedWriter(new OutputStreamWriter(fwdOt));
-		
 		Thread get2fwd = new Thread(){
 
 			@Override
@@ -46,11 +36,12 @@ public class Main {
 				super.run();
 				while(true){
 					try {
-						int c = getInRd.read();
-						fwdOtWt.write(c);
-						fwdOtWt.flush();
+						int c = getIn.read();
+						fwdOt.write(c);
+						fwdOt.flush();
 					} catch (IOException e) {
 						e.printStackTrace();
+						break;
 					}
 				}
 			}
@@ -63,11 +54,12 @@ public class Main {
 				super.run();
 				while(true){
 					try {
-						int c = fwdInRd.read();
-						getOtWt.write(c);
-						getOtWt.flush();
+						int c = fwdIn.read();
+						getOt.write(c);
+						getOt.flush();
 					} catch (IOException e) {
 						e.printStackTrace();
+						break;
 					}
 				}
 			}
