@@ -1,5 +1,7 @@
 package SimpleTCP;
 
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -20,14 +22,14 @@ public class Main {
 
 		Socket sockIn  = listen.accept();
 		
-		InputStream  getIn, fwdIn;
-		OutputStream getOt, fwdOt;
+		BufferedInputStream  getIn, fwdIn;
+		BufferedOutputStream getOt, fwdOt;
 		
-		getIn = sockIn.getInputStream();
-		getOt = sockIn.getOutputStream();
+		getIn = new BufferedInputStream(  sockIn.getInputStream() );
+		getOt = new BufferedOutputStream( sockIn.getOutputStream());
 		
-		fwdIn = sockOt.getInputStream();
-		fwdOt = sockOt.getOutputStream();
+		fwdIn = new BufferedInputStream( sockOt.getInputStream() );
+		fwdOt = new BufferedOutputStream(sockOt.getOutputStream());
 		
 		Thread get2fwd = new Thread(){
 
